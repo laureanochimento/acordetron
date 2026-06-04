@@ -1,0 +1,80 @@
+export interface Cancion {
+  titulo: string;
+  artista: string;
+  genero: "folklore" | "rock";
+  subgenero?: string;
+}
+
+export const canciones: Cancion[] = [
+  // ── FOLKLORE ──────────────────────────────────────────────────
+  { titulo: "Balderrama", artista: "Los Cantores De Quilla Huasi", genero: "folklore", subgenero: "Zamba" },
+  { titulo: "Luna Tucumana", artista: "Mercedes Sosa", genero: "folklore", subgenero: "Zamba" },
+  { titulo: "Zamba Por Vos", artista: "Mercedes Sosa", genero: "folklore", subgenero: "Zamba" },
+  { titulo: "Engañera", artista: "Los Visconti", genero: "folklore", subgenero: "Chacarera" },
+  { titulo: "Zamba de Amor en Vuelo", artista: "Tamara Castro", genero: "folklore", subgenero: "Zamba" },
+  { titulo: "La Tristecita", artista: "Horacio Guarany", genero: "folklore", subgenero: "Zamba" },
+  { titulo: "Zamba para Decir Adiós", artista: "Argentino Luna", genero: "folklore", subgenero: "Zamba" },
+  { titulo: "Zamba De Tu Adiós", artista: "Los Manseros Santiagueños", genero: "folklore", subgenero: "Zamba" },
+  { titulo: "Jamás", artista: "Los Chalchaleros", genero: "folklore", subgenero: "Zamba" },
+  { titulo: "La Nochera", artista: "Los Chalchaleros", genero: "folklore", subgenero: "Chacarera" },
+  { titulo: "La Carpa De Don Jaime", artista: "Dino Saluzzi", genero: "folklore", subgenero: "Zamba" },
+  { titulo: "La Cerrillana", artista: "Los Chalchaleros", genero: "folklore", subgenero: "Chacarera" },
+  { titulo: "La 7 De Abril", artista: "Pitín Zalazar", genero: "folklore", subgenero: "Zamba" },
+  { titulo: "Luna Cautiva", artista: "Los Chalchaleros", genero: "folklore", subgenero: "Zamba" },
+  { titulo: "Eterno Amor", artista: "Los Manseros Santiagueños", genero: "folklore", subgenero: "Zamba" },
+  { titulo: "Caballo Que No Galopa", artista: "Horacio Guarany", genero: "folklore", subgenero: "Chacarera" },
+  { titulo: "Zamba para Olvidarte", artista: "Daniel Toro", genero: "folklore", subgenero: "Zamba" },
+  { titulo: "Mi Luna Cautiva", artista: "Jorge Cafrune", genero: "folklore", subgenero: "Zamba" },
+  { titulo: "El Corralero", artista: "Hernan Figueroa Reyes", genero: "folklore", subgenero: "Chacarera" },
+  { titulo: "Desde el Puente Carretero", artista: "Los Manseros Santiagueños", genero: "folklore", subgenero: "Zamba" },
+  { titulo: "Sapo Cancionero", artista: "Los Chalchaleros", genero: "folklore", subgenero: "Zamba" },
+  { titulo: "Carpas De Salta", artista: "Los Cantores del Alba", genero: "folklore", subgenero: "Zamba" },
+  { titulo: "La Villerita", artista: "Horacio Guarany", genero: "folklore", subgenero: "Chacarera" },
+  { titulo: "Zamba Del Cantor Enamorado", artista: "Hernan Figueroa Reyes", genero: "folklore", subgenero: "Zamba" },
+  { titulo: "Para los Ojos Más Bellos", artista: "Los Manseros Santiagueños", genero: "folklore", subgenero: "Zamba" },
+  { titulo: "Entre a Mi Pago Sin Golpear", artista: "Los Carabajal", genero: "folklore", subgenero: "Chacarera" },
+  { titulo: "Si Se Calla El Cantor", artista: "Horacio Guarany", genero: "folklore", subgenero: "Zamba" },
+  { titulo: "Canto a Monte Quemado", artista: "Los Manseros Santiagueños", genero: "folklore", subgenero: "Zamba" },
+  { titulo: "Zamba de Mi Esperanza", artista: "Los Chalchaleros", genero: "folklore", subgenero: "Zamba" },
+  { titulo: "Jazmin de Luna", artista: "Los Tucu Tucu", genero: "folklore", subgenero: "Zamba" },
+  // más folklore genéricas (la API de Spotify solo mostró 30 en preview)
+  { titulo: "Alfonsina y el Mar", artista: "Mercedes Sosa", genero: "folklore", subgenero: "Zamba" },
+  { titulo: "Chacarera del Rancho", artista: "Los Chalchaleros", genero: "folklore", subgenero: "Chacarera" },
+  { titulo: "Nostalgias Tucumanas", artista: "Mercedes Sosa", genero: "folklore", subgenero: "Zamba" },
+  { titulo: "Triste Estoy", artista: "Jorge Cafrune", genero: "folklore", subgenero: "Zamba" },
+  { titulo: "El Arriero", artista: "Mercedes Sosa", genero: "folklore", subgenero: "Zamba" },
+
+  // ── ROCK NACIONAL ─────────────────────────────────────────────
+  { titulo: "El amor después del amor", artista: "Fito Paez", genero: "rock" },
+  { titulo: "Nos Siguen Pegando Abajo", artista: "Charly García", genero: "rock" },
+  { titulo: "Donde manda marinero", artista: "Andrés Calamaro", genero: "rock" },
+  { titulo: "Hechizao", artista: "Silvestre y La Naranja", genero: "rock" },
+  { titulo: "Ganas de Verte", artista: "Airbag", genero: "rock" },
+  { titulo: "11 Y 6", artista: "Fito Paez", genero: "rock" },
+  { titulo: "Como Eran Las Cosas", artista: "Babasonicos", genero: "rock" },
+  { titulo: "Seguir Viviendo Sin Tu Amor", artista: "Luis Alberto Spinetta", genero: "rock" },
+  { titulo: "Mi gin tonic", artista: "Andrés Calamaro", genero: "rock" },
+  { titulo: "Rezo por Vos", artista: "Charly García", genero: "rock" },
+  { titulo: "Polaroid De Locura Ordinaria", artista: "Fito Paez", genero: "rock" },
+  { titulo: "Fuego", artista: "Intoxicados", genero: "rock" },
+  { titulo: "A las Nueve", artista: "No Te Va Gustar", genero: "rock" },
+  { titulo: "Bajan", artista: "Luis Alberto Spinetta", genero: "rock" },
+  { titulo: "Brillante sobre el mic", artista: "Fito Paez", genero: "rock" },
+  { titulo: "Nunca quise", artista: "Intoxicados", genero: "rock" },
+  { titulo: "Me Siento Mucho Mejor", artista: "Charly García", genero: "rock" },
+  { titulo: "Rezo por Vos (En Vivo)", artista: "Luis Alberto Spinetta", genero: "rock" },
+  { titulo: "Será", artista: "Las Pelotas", genero: "rock" },
+  { titulo: "Personalmente", artista: "Las Pelotas", genero: "rock" },
+  { titulo: "No Tengo Ganas", artista: "Intoxicados", genero: "rock" },
+  { titulo: "Tan Lejos", artista: "No Te Va Gustar", genero: "rock" },
+  { titulo: "Promesas Sobre El Bidet", artista: "Charly García", genero: "rock" },
+  { titulo: "Costumbres Argentinas", artista: "Los Abuelos De La Nada", genero: "rock" },
+  { titulo: "Me Gusta", artista: "Ciro y los Persas", genero: "rock" },
+  { titulo: "Un Ángel para Tu Soledad", artista: "Patricio Rey y sus Redonditos de Ricota", genero: "rock" },
+  { titulo: "Ando Ganas (Llora Llora)", artista: "Los Piojos", genero: "rock" },
+  { titulo: "Ella Dijo", artista: "Estelares", genero: "rock" },
+  { titulo: "Un Poco de Amor Francés", artista: "Patricio Rey y sus Redonditos de Ricota", genero: "rock" },
+  { titulo: "Raros Peinados Nuevos", artista: "Charly García", genero: "rock" },
+];
+
+export const artistasUnicos = [...new Set(canciones.map((c) => c.artista))].sort();
