@@ -16,7 +16,7 @@ function renderLine(line: string) {
   const clean = line.replace(/^\s*\*\s+/, "").replace(/^\s*-\s+/, "");
   const parts = clean.split(/\*\*(.*?)\*\*/g);
   return parts.map((part, i) =>
-    i % 2 === 1 ? <strong key={i} className="text-zinc-100">{part}</strong> : part
+    i % 2 === 1 ? <strong key={i} style={{ color: "#f5e6c8" }}>{part}</strong> : part
   );
 }
 
@@ -88,42 +88,62 @@ export default function Home() {
     return <SplashScreen onEnter={() => setShowSplash(false)} />;
   }
 
+  // Paleta del afiche
+  const bg       = "#120a03";
+  const bgPanel  = "#1e1005";
+  const bgCard   = "#2a1508";
+  const border   = "#5a3010";
+  const borderHover = "#c8a060";
+  const gold     = "#c8a060";
+  const cream    = "#f5e6c8";
+  const muted    = "#9a7a50";
+  const folklore = "#c8822a";
+  const rock     = "#8b1a1a";
+
   return (
-    <div className="min-h-screen bg-zinc-950 text-zinc-100 flex flex-col">
-      <header className="border-b border-zinc-800 px-6 py-4 flex items-center gap-4">
+    <div style={{ minHeight: "100vh", background: bg, color: cream, display: "flex", flexDirection: "column", fontFamily: "Georgia, serif" }}>
+      {/* Header */}
+      <header style={{ borderBottom: `1px solid ${border}`, padding: "12px 24px", display: "flex", alignItems: "center", gap: 12, background: bgPanel }}>
         <button
           onClick={() => setShowSplash(true)}
-          className="text-2xl font-bold text-white tracking-tight hover:text-amber-400 transition-colors cursor-pointer text-left"
-          style={{ fontFamily: "'Playfair Display', serif", background: "none", border: "none" }}
+          style={{ background: "none", border: "none", cursor: "pointer", display: "flex", alignItems: "center", gap: 10 }}
         >
-          🎸 Acordetrón
+          <span style={{ fontSize: 22 }}>🎸</span>
+          <span style={{ fontSize: 20, fontWeight: 700, color: cream, fontFamily: "'Playfair Display', Georgia, serif", letterSpacing: 1 }}>Acordetrón</span>
         </button>
-        <p className="text-zinc-500 text-sm">Folklore & Rock Nacional · Letra y Acordes</p>
-        <div className="ml-auto text-zinc-600 text-sm">{canciones.length} canciones</div>
+        <span style={{ color: muted, fontSize: 13, fontStyle: "italic", marginLeft: 4 }}>Folklore & Rock Nacional · Letra y Acordes</span>
+        <div style={{ marginLeft: "auto", color: border, fontSize: 13 }}>{canciones.length} canciones</div>
       </header>
 
-      <div className="flex flex-1 overflow-hidden" style={{ height: "calc(100vh - 73px)" }}>
-        <aside className="w-80 border-r border-zinc-800 flex flex-col">
-          <div className="p-4 border-b border-zinc-800 space-y-3">
+      <div style={{ display: "flex", flex: 1, overflow: "hidden", height: "calc(100vh - 57px)" }}>
+        {/* Sidebar */}
+        <aside style={{ width: 300, borderRight: `1px solid ${border}`, display: "flex", flexDirection: "column", background: bgPanel }}>
+          {/* Filtros */}
+          <div style={{ padding: 16, borderBottom: `1px solid ${border}`, display: "flex", flexDirection: "column", gap: 10 }}>
             <input
               type="text"
               placeholder="Buscar canción o artista..."
               value={busqueda}
               onChange={(e) => setBusqueda(e.target.value)}
-              className="w-full bg-zinc-900 border border-zinc-700 rounded-lg px-3 py-2 text-sm text-zinc-100 placeholder-zinc-500 focus:outline-none focus:border-zinc-500"
+              style={{
+                background: bg, border: `1px solid ${border}`, borderRadius: 6,
+                padding: "8px 12px", fontSize: 13, color: cream, outline: "none",
+                fontFamily: "Georgia, serif",
+              }}
             />
-            <div className="flex gap-2">
+            <div style={{ display: "flex", gap: 6 }}>
               {(["todos", "folklore", "rock"] as const).map((g) => (
-                <button
-                  key={g}
-                  onClick={() => { setGeneroFiltro(g); setArtistalFiltro("todos"); }}
-                  className={`flex-1 py-1.5 rounded-lg text-xs font-semibold capitalize transition-colors ${
-                    generoFiltro === g
-                      ? g === "folklore" ? "bg-amber-600 text-white"
-                        : g === "rock" ? "bg-rose-700 text-white"
-                        : "bg-zinc-700 text-white"
-                      : "bg-zinc-800 text-zinc-400 hover:bg-zinc-700"
-                  }`}
+                <button key={g} onClick={() => { setGeneroFiltro(g); setArtistalFiltro("todos"); }}
+                  style={{
+                    flex: 1, padding: "6px 0", borderRadius: 6, fontSize: 11,
+                    fontWeight: 600, cursor: "pointer", border: `1px solid ${border}`,
+                    background: generoFiltro === g
+                      ? g === "folklore" ? folklore : g === "rock" ? rock : "#3a2010"
+                      : "transparent",
+                    color: generoFiltro === g ? cream : muted,
+                    letterSpacing: 1, textTransform: "uppercase", fontFamily: "Georgia, serif",
+                    transition: "all 0.15s",
+                  }}
                 >
                   {g === "todos" ? "Todos" : g === "folklore" ? "🪗 Folklore" : "🎸 Rock"}
                 </button>
@@ -132,120 +152,155 @@ export default function Home() {
             <select
               value={artistaFiltro}
               onChange={(e) => setArtistalFiltro(e.target.value)}
-              className="w-full bg-zinc-900 border border-zinc-700 rounded-lg px-3 py-2 text-sm text-zinc-100 focus:outline-none focus:border-zinc-500"
+              style={{
+                background: bg, border: `1px solid ${border}`, borderRadius: 6,
+                padding: "8px 12px", fontSize: 13, color: cream, outline: "none",
+                fontFamily: "Georgia, serif",
+              }}
             >
               {artistasFiltrados.map((a) => (
-                <option key={a} value={a}>{a === "todos" ? "Todos los artistas" : a}</option>
+                <option key={a} value={a} style={{ background: bgCard }}>{a === "todos" ? "Todos los artistas" : a}</option>
               ))}
             </select>
           </div>
 
-          <div className="flex-1 overflow-y-auto">
+          {/* Lista */}
+          <div style={{ flex: 1, overflowY: "auto" }}>
             {agrupadas.length === 0 ? (
-              <p className="text-zinc-500 text-sm p-4">Sin resultados.</p>
-            ) : (
-              agrupadas.map(([artista, songs]) => (
-                <div key={artista}>
-                  <div className="px-4 py-2 bg-zinc-900 text-zinc-400 text-xs font-semibold uppercase tracking-wider sticky top-0 z-10">
-                    {artista}
-                  </div>
-                  {songs.map((c) => {
-                    const isActive = cancionActiva?.titulo === c.titulo && cancionActiva?.artista === c.artista;
-                    const isCached = !!cache[cacheKey(c)];
-                    return (
-                      <button
-                        key={cacheKey(c)}
-                        onClick={() => abrirCancion(c)}
-                        className={`w-full text-left px-4 py-3 border-b border-zinc-800/50 transition-colors flex items-center gap-2 ${
-                          isActive ? "bg-zinc-700" : "hover:bg-zinc-800/60"
-                        }`}
-                      >
-                        <span className={`w-1.5 h-1.5 rounded-full flex-shrink-0 ${
-                          c.genero === "folklore" ? "bg-amber-500" : "bg-rose-500"
-                        }`} />
-                        <span className="flex-1 text-sm truncate">{c.titulo}</span>
-                        {isCached && <span className="text-xs text-green-600">✓</span>}
-                      </button>
-                    );
-                  })}
+              <p style={{ color: muted, fontSize: 13, padding: 16 }}>Sin resultados.</p>
+            ) : agrupadas.map(([artista, songs]) => (
+              <div key={artista}>
+                <div style={{
+                  padding: "8px 16px", background: bg,
+                  color: gold, fontSize: 10, fontWeight: 700,
+                  letterSpacing: 3, textTransform: "uppercase",
+                  borderBottom: `1px solid ${border}`,
+                  position: "sticky", top: 0, zIndex: 10,
+                  fontFamily: "Georgia, serif",
+                }}>
+                  {artista}
                 </div>
-              ))
-            )}
+                {songs.map((c) => {
+                  const isActive = cancionActiva?.titulo === c.titulo && cancionActiva?.artista === c.artista;
+                  const isCached = !!cache[cacheKey(c)];
+                  return (
+                    <button key={cacheKey(c)} onClick={() => abrirCancion(c)}
+                      style={{
+                        width: "100%", textAlign: "left", padding: "10px 16px",
+                        borderBottom: `1px solid ${border}40`,
+                        display: "flex", alignItems: "center", gap: 8,
+                        background: isActive ? bgCard : "transparent",
+                        cursor: "pointer", border: "none",
+                        borderLeft: isActive ? `3px solid ${gold}` : "3px solid transparent",
+                        transition: "all 0.15s",
+                      }}
+                    >
+                      <span style={{
+                        width: 6, height: 6, borderRadius: "50%", flexShrink: 0,
+                        background: c.genero === "folklore" ? folklore : rock,
+                      }} />
+                      <span style={{ flex: 1, fontSize: 13, color: isActive ? cream : "#c8a87a", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap", fontFamily: "Georgia, serif" }}>
+                        {c.titulo}
+                      </span>
+                      {isCached && <span style={{ fontSize: 10, color: "#6a8b3a" }}>✓</span>}
+                    </button>
+                  );
+                })}
+              </div>
+            ))}
           </div>
         </aside>
 
-        <main className="flex-1 overflow-y-auto">
+        {/* Main */}
+        <main style={{ flex: 1, overflowY: "auto", background: bg }}>
           {!cancionActiva ? (
-            <div className="flex flex-col items-center justify-center h-full text-center p-8">
-              <div className="text-6xl mb-4">🎵</div>
-              <h2 className="text-xl font-semibold text-zinc-300 mb-2">Seleccioná una canción</h2>
-              <p className="text-zinc-500 text-sm max-w-xs">
-                Elegí cualquier canción de la lista y Gemini te trae la letra con los acordes de guitarra al instante.
+            <div style={{ display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", height: "100%", textAlign: "center", padding: 32 }}>
+              <div style={{ fontSize: 56, marginBottom: 16 }}>🎵</div>
+              <h2 style={{ fontSize: 20, fontWeight: 700, color: cream, marginBottom: 8, fontFamily: "'Playfair Display', Georgia, serif" }}>Seleccioná una canción</h2>
+              <p style={{ color: muted, fontSize: 14, maxWidth: 280, fontStyle: "italic", lineHeight: 1.6 }}>
+                Elegí cualquier canción de la lista y Gemini te trae la letra con los acordes al instante.
               </p>
-              <div className="mt-6 flex gap-4 text-sm text-zinc-600">
-                <span><span className="text-amber-500">●</span> Folklore: {canciones.filter(c => c.genero === "folklore").length} canciones</span>
-                <span><span className="text-rose-500">●</span> Rock: {canciones.filter(c => c.genero === "rock").length} canciones</span>
+              <div style={{ marginTop: 24, display: "flex", gap: 24, fontSize: 13, color: border }}>
+                <span><span style={{ color: folklore }}>●</span> Folklore: {canciones.filter(c => c.genero === "folklore").length} canciones</span>
+                <span><span style={{ color: rock }}>●</span> Rock: {canciones.filter(c => c.genero === "rock").length} canciones</span>
               </div>
             </div>
           ) : (
-            <div className="max-w-3xl mx-auto p-8">
-              <div className="mb-8">
-                <div className="flex items-center gap-2 mb-2">
-                  <span className={`text-xs px-2 py-0.5 rounded-full font-semibold ${
-                    cancionActiva.genero === "folklore"
-                      ? "bg-amber-900/50 text-amber-400"
-                      : "bg-rose-900/50 text-rose-400"
-                  }`}>
+            <div style={{ maxWidth: 720, margin: "0 auto", padding: 40 }}>
+              {/* Canción header */}
+              <div style={{ marginBottom: 32 }}>
+                <div style={{ marginBottom: 8 }}>
+                  <span style={{
+                    fontSize: 11, padding: "3px 10px", borderRadius: 4, fontWeight: 600,
+                    letterSpacing: 2, textTransform: "uppercase",
+                    background: cancionActiva.genero === "folklore" ? `${folklore}22` : `${rock}22`,
+                    color: cancionActiva.genero === "folklore" ? folklore : "#e06060",
+                    border: `1px solid ${cancionActiva.genero === "folklore" ? folklore : rock}44`,
+                    fontFamily: "Georgia, serif",
+                  }}>
                     {cancionActiva.genero === "folklore"
                       ? `🪗 Folklore${cancionActiva.subgenero ? ` · ${cancionActiva.subgenero}` : ""}`
                       : "🎸 Rock Nacional"}
                   </span>
                 </div>
-                <h2 className="text-3xl font-bold text-white mb-1">{cancionActiva.titulo}</h2>
-                <p className="text-zinc-400 text-lg">{cancionActiva.artista}</p>
+                <h2 style={{ fontSize: 32, fontWeight: 700, color: cream, marginBottom: 4, fontFamily: "'Playfair Display', Georgia, serif", lineHeight: 1.2 }}>
+                  {cancionActiva.titulo}
+                </h2>
+                <p style={{ color: gold, fontSize: 16, fontStyle: "italic" }}>{cancionActiva.artista}</p>
+                <div style={{ marginTop: 12, height: 1, background: `linear-gradient(to right, ${border}, transparent)` }} />
               </div>
 
               {cargando ? (
-                <div className="flex flex-col items-center py-20 gap-4">
-                  <div className="w-10 h-10 border-2 border-zinc-600 border-t-amber-500 rounded-full animate-spin" />
-                  <p className="text-zinc-400 text-sm">Buscando letra y acordes con Gemini...</p>
+                <div style={{ display: "flex", flexDirection: "column", alignItems: "center", padding: "80px 0", gap: 16 }}>
+                  <div style={{
+                    width: 40, height: 40, border: `2px solid ${border}`,
+                    borderTopColor: gold, borderRadius: "50%",
+                    animation: "spin 0.8s linear infinite",
+                  }} />
+                  <style>{`@keyframes spin { to { transform: rotate(360deg); } }`}</style>
+                  <p style={{ color: muted, fontSize: 14, fontStyle: "italic" }}>Buscando letra y acordes con Gemini...</p>
                 </div>
               ) : error ? (
-                <div className="bg-red-900/30 border border-red-700 rounded-xl p-6 text-center">
-                  <p className="text-red-400 mb-3">⚠️ {error}</p>
+                <div style={{ background: `${rock}22`, border: `1px solid ${rock}`, borderRadius: 10, padding: 24, textAlign: "center" }}>
+                  <p style={{ color: "#e06060", marginBottom: 12 }}>⚠️ {error}</p>
                   <button onClick={() => abrirCancion(cancionActiva)}
-                    className="bg-red-800 hover:bg-red-700 text-white px-4 py-2 rounded-lg text-sm transition-colors">
+                    style={{ background: rock, color: cream, border: "none", padding: "8px 20px", borderRadius: 6, cursor: "pointer", fontSize: 13, fontFamily: "Georgia, serif" }}>
                     Reintentar
                   </button>
                 </div>
               ) : datosActivos ? (
-                <div className="space-y-8">
+                <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
                   {datosActivos.info && (
-                    <div className="bg-zinc-900 border border-zinc-800 rounded-xl p-4">
-                      <h3 className="text-xs font-semibold text-zinc-500 uppercase tracking-wider mb-2">Info</h3>
-                      <div className="text-zinc-300 text-sm space-y-1">
+                    <div style={{ background: bgCard, border: `1px solid ${border}`, borderRadius: 10, padding: 16 }}>
+                      <h3 style={{ fontSize: 10, color: gold, letterSpacing: 3, textTransform: "uppercase", marginBottom: 10, fontFamily: "Georgia, serif" }}>Info</h3>
+                      <div style={{ display: "flex", flexDirection: "column", gap: 4 }}>
                         {datosActivos.info.split("\n").filter(Boolean).map((line, i) => (
-                          <p key={i}>{renderLine(line)}</p>
+                          <p key={i} style={{ color: "#c8b090", fontSize: 13, lineHeight: 1.6 }}>{renderLine(line)}</p>
                         ))}
                       </div>
                     </div>
                   )}
                   {datosActivos.acordes && (
-                    <div className="bg-zinc-900 border border-zinc-800 rounded-xl p-6">
-                      <h3 className="text-xs font-semibold text-zinc-500 uppercase tracking-wider mb-3">🎸 Acordes</h3>
-                      <div className="text-zinc-300 text-sm font-mono space-y-1.5">
+                    <div style={{ background: bgCard, border: `1px solid ${border}`, borderRadius: 10, padding: 24 }}>
+                      <h3 style={{ fontSize: 10, color: gold, letterSpacing: 3, textTransform: "uppercase", marginBottom: 12, fontFamily: "Georgia, serif" }}>🎸 Acordes</h3>
+                      <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
                         {datosActivos.acordes.split("\n").filter(Boolean).map((line, i) => (
-                          <p key={i}>{renderLine(line)}</p>
+                          <p key={i} style={{ color: "#c8b090", fontSize: 13, fontFamily: "monospace", lineHeight: 1.7 }}>{renderLine(line)}</p>
                         ))}
                       </div>
                     </div>
                   )}
-                  <div className="bg-zinc-900 border border-zinc-800 rounded-xl p-6">
-                    <h3 className="text-xs font-semibold text-zinc-500 uppercase tracking-wider mb-3">🎵 Letra con Acordes</h3>
-                    <div className="text-zinc-200 text-sm font-mono space-y-0.5">
+                  <div style={{ background: bgCard, border: `1px solid ${border}`, borderRadius: 10, padding: 24 }}>
+                    <h3 style={{ fontSize: 10, color: gold, letterSpacing: 3, textTransform: "uppercase", marginBottom: 12, fontFamily: "Georgia, serif" }}>🎵 Letra con Acordes</h3>
+                    <div style={{ display: "flex", flexDirection: "column" }}>
                       {datosActivos.letra.split("\n").map((line, i) => (
-                        <p key={i} className={line.trim() === "" ? "h-3" : "leading-relaxed"}>
-                          {renderLine(line)}
+                        <p key={i} style={{
+                          color: line.trim() === "" ? "transparent" : cream,
+                          fontSize: 13, fontFamily: "monospace",
+                          lineHeight: line.trim() === "" ? "0.8" : "1.9",
+                          marginBottom: line.trim() === "" ? 8 : 0,
+                        }}>
+                          {line.trim() === "" ? "·" : renderLine(line)}
                         </p>
                       ))}
                     </div>
