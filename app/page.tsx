@@ -11,6 +11,17 @@ interface AcordesData {
 
 type Cache = Record<string, AcordesData>;
 
+// Convierte markdown simple (**negrita**, * bullet) a JSX
+function renderLine(line: string) {
+  // Eliminar bullet de markdown al inicio
+  const clean = line.replace(/^\s*\*\s+/, "").replace(/^\s*-\s+/, "");
+  // Dividir por **texto**
+  const parts = clean.split(/\*\*(.*?)\*\*/g);
+  return parts.map((part, i) =>
+    i % 2 === 1 ? <strong key={i} className="text-zinc-100">{part}</strong> : part
+  );
+}
+
 export default function Home() {
   const [generoFiltro, setGeneroFiltro] = useState<"todos" | "folklore" | "rock">("todos");
   const [artistaFiltro, setArtistalFiltro] = useState("todos");
@@ -205,19 +216,33 @@ export default function Home() {
                 <div className="space-y-8">
                   {datosActivos.info && (
                     <div className="bg-zinc-900 border border-zinc-800 rounded-xl p-4">
-                      <h3 className="text-xs font-semibold text-zinc-500 uppercase tracking-wider mb-1">Info</h3>
-                      <p className="text-zinc-300 text-sm whitespace-pre-wrap">{datosActivos.info}</p>
+                      <h3 className="text-xs font-semibold text-zinc-500 uppercase tracking-wider mb-2">Info</h3>
+                      <div className="text-zinc-300 text-sm space-y-1">
+                        {datosActivos.info.split("\n").filter(Boolean).map((line, i) => (
+                          <p key={i}>{renderLine(line)}</p>
+                        ))}
+                      </div>
                     </div>
                   )}
                   {datosActivos.acordes && (
                     <div className="bg-zinc-900 border border-zinc-800 rounded-xl p-6">
                       <h3 className="text-xs font-semibold text-zinc-500 uppercase tracking-wider mb-3">🎸 Acordes</h3>
-                      <pre className="text-zinc-300 text-sm font-mono whitespace-pre-wrap leading-relaxed">{datosActivos.acordes}</pre>
+                      <div className="text-zinc-300 text-sm font-mono space-y-1.5">
+                        {datosActivos.acordes.split("\n").filter(Boolean).map((line, i) => (
+                          <p key={i}>{renderLine(line)}</p>
+                        ))}
+                      </div>
                     </div>
                   )}
                   <div className="bg-zinc-900 border border-zinc-800 rounded-xl p-6">
                     <h3 className="text-xs font-semibold text-zinc-500 uppercase tracking-wider mb-3">🎵 Letra con Acordes</h3>
-                    <pre className="text-zinc-200 text-sm font-mono whitespace-pre-wrap leading-loose">{datosActivos.letra}</pre>
+                    <div className="text-zinc-200 text-sm font-mono space-y-0.5">
+                      {datosActivos.letra.split("\n").map((line, i) => (
+                        <p key={i} className={line.trim() === "" ? "h-3" : "leading-relaxed"}>
+                          {renderLine(line)}
+                        </p>
+                      ))}
+                    </div>
                   </div>
                 </div>
               ) : null}
@@ -228,3 +253,4 @@ export default function Home() {
     </div>
   );
 }
+
