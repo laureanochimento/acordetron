@@ -2,6 +2,7 @@
 
 import { useState, useMemo } from "react";
 import { canciones, Cancion } from "@/lib/canciones";
+import SplashScreen from "@/components/SplashScreen";
 
 interface AcordesData {
   letra: string;
@@ -11,11 +12,8 @@ interface AcordesData {
 
 type Cache = Record<string, AcordesData>;
 
-// Convierte markdown simple (**negrita**, * bullet) a JSX
 function renderLine(line: string) {
-  // Eliminar bullet de markdown al inicio
   const clean = line.replace(/^\s*\*\s+/, "").replace(/^\s*-\s+/, "");
-  // Dividir por **texto**
   const parts = clean.split(/\*\*(.*?)\*\*/g);
   return parts.map((part, i) =>
     i % 2 === 1 ? <strong key={i} className="text-zinc-100">{part}</strong> : part
@@ -23,6 +21,7 @@ function renderLine(line: string) {
 }
 
 export default function Home() {
+  const [showSplash, setShowSplash] = useState(true);
   const [generoFiltro, setGeneroFiltro] = useState<"todos" | "folklore" | "rock">("todos");
   const [artistaFiltro, setArtistalFiltro] = useState("todos");
   const [busqueda, setBusqueda] = useState("");
@@ -66,7 +65,6 @@ export default function Home() {
     setError("");
     const key = cacheKey(cancion);
     if (cache[key]) return;
-
     setCargando(true);
     try {
       const res = await fetch("/api/acordes", {
@@ -86,17 +84,25 @@ export default function Home() {
 
   const datosActivos = cancionActiva ? cache[cacheKey(cancionActiva)] : null;
 
+  if (showSplash) {
+    return <SplashScreen onEnter={() => setShowSplash(false)} />;
+  }
+
   return (
     <div className="min-h-screen bg-zinc-950 text-zinc-100 flex flex-col">
       <header className="border-b border-zinc-800 px-6 py-4 flex items-center gap-4">
-        <div>
-          <h1 className="text-2xl font-bold text-white tracking-tight">🎸 Cancionero AR</h1>
-          <p className="text-zinc-500 text-sm">Folklore & Rock Nacional · Letra y Acordes</p>
-        </div>
+        <button
+          onClick={() => setShowSplash(true)}
+          className="text-2xl font-bold text-white tracking-tight hover:text-amber-400 transition-colors cursor-pointer text-left"
+          style={{ fontFamily: "'Playfair Display', serif", background: "none", border: "none" }}
+        >
+          🎸 Acordetrón
+        </button>
+        <p className="text-zinc-500 text-sm">Folklore & Rock Nacional · Letra y Acordes</p>
         <div className="ml-auto text-zinc-600 text-sm">{canciones.length} canciones</div>
       </header>
 
-      <div className="flex flex-1 overflow-hidden" style={{height: "calc(100vh - 73px)"}}>
+      <div className="flex flex-1 overflow-hidden" style={{ height: "calc(100vh - 73px)" }}>
         <aside className="w-80 border-r border-zinc-800 flex flex-col">
           <div className="p-4 border-b border-zinc-800 space-y-3">
             <input
@@ -201,7 +207,7 @@ export default function Home() {
 
               {cargando ? (
                 <div className="flex flex-col items-center py-20 gap-4">
-                  <div className="w-10 h-10 border-2 border-zinc-600 border-t-zinc-300 rounded-full animate-spin" />
+                  <div className="w-10 h-10 border-2 border-zinc-600 border-t-amber-500 rounded-full animate-spin" />
                   <p className="text-zinc-400 text-sm">Buscando letra y acordes con Gemini...</p>
                 </div>
               ) : error ? (
